@@ -12,14 +12,16 @@ function FinalImage = new_LoadMultipageTiff( fname, formatIn, formatOut, useGPU 
     mImage=InfoImage(1).Width;
     nImage=InfoImage(1).Height;
     NumberImages=length(InfoImage);
+    BitDepth=InfoImage(1).BitDepth;
+    BitDepth_string = sprintf('uint%d', BitDepth);
 
  
     if useGPU
         %FinalImage=zeros(nImage,mImage,NumberImages,format, 'gpuArray');
-        FinalImage=zeros(nImage ,mImage ,NumberImages, formatIn, 'gpuArray');
+        FinalImage=zeros(nImage ,mImage ,NumberImages, BitDepth_string, 'gpuArray');
     else
         %FinalImage=zeros(nImage,mImage,NumberImages,format);
-        FinalImage=zeros(nImage, mImage, NumberImages, formatIn);
+        FinalImage=zeros(nImage, mImage, NumberImages, BitDepth_string);
     end
 
     TifLink = Tiff(fname, 'r');
